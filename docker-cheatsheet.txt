@@ -1,0 +1,95 @@
+#Cheat Sheet for Docker Workshop
+
+### install the Docker engine ###
+sudo apt-get update && sudo apt-get install git
+git clone https://www.github.com/jcdavenport/docker_workshop
+cd docker_workshop
+chmod +x install_docker.sh
+./install_docker.sh
+#################################
+
+1. download container images from http://10.42.0.1:8080
+
+-------------------------------------------------
+2. run Hello-World and demonstrate pulling Alpine
+-------------------------------------------------
+docker pull hello-world
+docker run --rm hello-world
+
+#download Alpine image with wget
+#then load into docker engine
+
+docker load --input alpineimg.tar
+
+#run Alpine image
+docker run -it \
+--name alpine \
+alpineimg
+
+------------------------------------------------
+3. demo web development using Apache http server
+------------------------------------------------
+docker load --input apache.tar
+
+docker run --rm -it \
+--name web-server \
+-p 8080:80 \
+-v /home/jxdx/http:/usr/local/apache2/htdocs/ \
+-d apache-http
+
+------------------------------------------------
+4. demo setting up Wordpress server with MariaDB
+------------------------------------------------
+#Wordpress#
+docker network create wordpress-tier
+
+docker load --input mariadb.tar
+
+docker run -d --name mariadb \
+ -e ALLOW_EMPTY_PASSWORD=yes \
+ -e MARIADB_USER=bn_wordpress \
+ -e MARIADB_DATABASE=bitnami_wordpress \
+ --net wordpress-tier \
+ --volume mariadb_data:/bitnami \
+ bitnami/mariadb:latest
+ 
+
+docker load --input wordpress.tar
+ 
+ docker run -d --name wordpress -p 80:80 -p 443:443 \
+ -e ALLOW_EMPTY_PASSWORD=yes \
+ -e WORDPRESS_DATABASE_USER=bn_wordpress \
+ -e WORDPRESS_DATABASE_NAME=bitnami_wordpress \
+ --net wordpress-tier \
+ --volume wordpress_data:/bitnami \
+ bitnami/wordpress:latest
+
+
+------------------------------------------------------------
+5. demo setting up penetration testing lab with kali and MS2
+------------------------------------------------------------
+docker load --input sploitable2.tar
+
+docker run -it  --rm \
+--name sploitable2 \
+--net host \
+-d sploitable2 sh -c "/bin/services.sh && bash"
+
+
+docker load --input postgresql.tar
+
+docker run -d --name postgres postgres
+
+
+docker load --input kali_msf.tar
+
+docker run -it --link postgres:db kali-msfconsole
+
+
+docker load --input kali_minimal.tar
+
+docker run -it \
+--net host \
+--name kali \
+kali
+
