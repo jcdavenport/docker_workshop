@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo apt-get update
 sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
@@ -20,7 +21,4 @@ sudo apt-get install -y docker-ce
 sudo usermod -aG docker $USER
 
 #refresh group assignment
-exec su -l $USER
-
-#restart lxde
-lxpanelctl restart && openbox --restart
+exec su -l $USER  
