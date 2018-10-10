@@ -16,4 +16,4 @@ sudo apt-get update && sudo apt-get install net-tools git
 	Finally, enter: /usr/bin/vmware-user in the terminal and press Enter.  
 
 -Don't forget to make the install script executable:  
-chmod +x docker_install.sh  
+chmod +x install_docker.sh  
