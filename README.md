@@ -14,3 +14,6 @@ sudo apt-get update && sudo apt-get install net-tools git
 	Open extracted folder in terminal and enter:   sudo ./vmware-install.pl  
 	Type “yes” and press Enter when prompted to proceed with legacy installer (everything else is left default).  
 	Finally, enter: /usr/bin/vmware-user in the terminal and press Enter.  
+
+-Don't forget to make the install script executable:  
+chmod +x docker_install.sh  
